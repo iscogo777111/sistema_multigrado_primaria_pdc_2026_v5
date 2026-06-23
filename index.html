@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador PDC MULTIGRADO 2026 - Gestión Educativa</title>
+    <link rel="icon" type="image/png" href="img/icono.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/pizzip@3.1.7/dist/pizzip.js"></script>
+    <script src="https://unpkg.com/pizzip@3.1.7/dist/pizzip-utils.js"></script>
+    <script src="https://unpkg.com/docxtemplater@3.37.11/build/docxtemplater.js"></script>
+    <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden-content {
+            display: none;
+        }
+
+        .show-content {
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+
+        .animate-blob {
+            animation: blob 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+
+        /* Estilos optimizados para interlineado reducido */
+        .guia-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .mini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 lg:p-12 antialiased selection:bg-blue-200 selection:text-blue-900 relative">
+
+    <div class="fixed inset-0 w-full h-full z-[-1] overflow-hidden bg-[#f0f4f8]">
+        <div
+            class="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-indigo-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-40 animate-blob">
+        </div>
+        <div
+            class="absolute top-[20%] right-[-10%] w-[40rem] h-[40rem] bg-blue-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob animation-delay-2000">
+        </div>
+        <div
+            class="absolute bottom-[-20%] left-[20%] w-[40rem] h-[40rem] bg-cyan-300 rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-blob animation-delay-4000">
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto relative z-10 pb-20">
+        <header class="text-center mb-16 relative group pt-6">
+            <div
+                class="absolute inset-0 bg-blue-400/5 blur-3xl rounded-full scale-150 transition-transform duration-700 group-hover:scale-100 z-0 pointer-events-none">
+            </div>
+            <!-- Si no tienes la img, solo fallará graciosamente, pero es el mismo nombre de antes -->
+            <img src="img/logo.png" alt="Logotipo"
+                class="mx-auto mb-8 h-28 md:h-40 object-contain drop-shadow-2xl relative z-10 transition-transform duration-700 hover:scale-[1.03]"
+                onerror="this.style.display='none'">
+            <span
+                class="text-xs font-bold tracking-[0.2em] text-blue-800 uppercase bg-gradient-to-r from-blue-100/90 to-indigo-100/90 backdrop-blur-md px-6 py-2.5 rounded-full border border-blue-200 shadow-sm relative z-10 transition-shadow hover:shadow-md inline-flex items-center gap-2">
+                <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Sistema de Planificación Curricular - V.4.0
+            </span>
+            <h1
+                class="text-3xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 mt-10 mb-4 tracking-tight leading-tight relative z-10 drop-shadow-sm">
+                PLAN DE DESARROLLO CURRICULAR <br><span
+                    class="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-700 mt-4 block drop-shadow-none">EDUCACIÓN
+                    PRIMARIA - MULTIGRADO</span>
+            </h1>
+            <div
+                class="h-1.5 w-32 bg-gradient-to-r from-blue-500 to-indigo-400 mx-auto rounded-full mt-8 mb-12 shadow-sm">
+            </div>
+            <div
+                class="flex items-center justify-center gap-4 bg-white/80 backdrop-blur-lg px-8 py-4 rounded-2xl mx-auto w-max shadow-lg border border-slate-200/50 relative z-10 transition-all hover:shadow-xl hover:bg-white/95 group">
+                <span class="text-sm font-bold text-slate-500 tracking-wider flex items-center gap-2">
+                    <svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    DOCUMENTO Nº
+                </span>
+                <input type="number" id="numeroPDC"
+                    class="w-24 border-b-2 border-slate-300 group-hover:border-indigo-400 focus:border-indigo-600 text-3xl font-black text-center focus:outline-none bg-transparent transition-colors text-indigo-900"
+                    placeholder="01">
+            </div>
+        </header>
+
+        <form id="pdcForm">
+            <!-- I. Datos Referenciales -->
+            <div class="section-card relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-blue-500 to-indigo-700"></div>
+                <div class="flex items-center gap-4 mb-8 pl-2">
+                    <div class="bg-blue-100 p-3 rounded-xl shadow-inner">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 uppercase tracking-widest">
+                        I. Datos Referenciales
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div><label class="label-style">Distrito Educativo</label><input type="text" id="distrito"
+                            class="input-style" placeholder="Ej. Cercado I"></div>
+                    <div>
+                        <label class="label-style">Nivel</label>
+                        <select id="nivel" class="input-style cursor-pointer">
+                            <option value="Primaria Comunitaria Vocacional">Primaria Comunitaria Vocacional (Multigrado)
+                            </option>
+                        </select>
+                    </div>
+                    <div><label class="label-style">Directora/o</label><input type="text" id="directora"
+                            class="input-style" placeholder="Nombre de directora/o"></div>
+                    <div><label class="label-style">Maestra/o</label><input type="text" id="maestro" class="input-style"
+                            placeholder="Nombre completo "></div>
+                    <div>
+                        <label class="label-style">Trimestre</label>
+                        <select id="trimestre" class="input-style cursor-pointer">
+                            <option>Primer Trimestre</option>
+                            <option>Segundo Trimestre</option>
+                            <option>Tercer Trimestre</option>
+                        </select>
+                    </div>
+                    <div><label class="label-style">Periodo (Fechas)</label><input type="text" id="duracion"
+                            class="input-style" placeholder="Ej: 02 de febrero al 27 de febrero"></div>
+                    <div class="md:col-span-2 lg:col-span-3"><label class="label-style">Unidad Educativa</label><input
+                            type="text" id="ue" class="input-style" placeholder="Nombre de la Unidad Educativa"></div>
+                </div>
+            </div>
+
+            <!-- II. Organización de Contenidos -->
+            <div class="section-card relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-amber-400 to-orange-500"></div>
+                <div class="flex items-center gap-4 mb-8 pl-2">
+                    <div class="bg-amber-100 p-3 rounded-xl shadow-inner">
+                        <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002 2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 uppercase tracking-widest">
+                        II. Organización de Contenidos Multigrado
+                    </h2>
+                </div>
+
+                <div
+                    class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl mb-10 border border-blue-100 shadow-sm flex flex-col xl:flex-row justify-between items-start gap-8">
+                    <div class="flex-1 w-full">
+                        <label class="block text-base font-extrabold text-indigo-900 mb-2 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            Configuración Inicial
+                        </label>
+                        <p class="text-sm text-indigo-700/80 mb-4 font-medium">Seleccione cuántos grados desea
+                            planificar simultáneamente:</p>
+                        <select id="cantidadGrados"
+                            class="input-style cursor-pointer max-w-sm ring-2 ring-indigo-100 hover:ring-indigo-300 transition-shadow"
+                            onchange="renderizarConfiguracionGrados()">
+                            <option value="2" selected>2 Grados</option>
+                            <option value="3">3 Grados</option>
+                            <option value="4">4 Grados</option>
+                            <option value="5">5 Grados</option>
+                            <option value="6">6 Grados</option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="bg-white p-5 rounded-xl border border-blue-100 shadow-md min-w-[320px] lg:min-w-[400px] w-full xl:w-auto relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-50 rounded-full blur-xl"></div>
+                        <h4
+                            class="text-[11px] font-extrabold text-blue-800 uppercase mb-3 tracking-widest border-b border-blue-50 pb-2 relative z-10">
+                            Guía de Referencia de Áreas</h4>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2 relative z-10">
+                            <div class="guia-item">
+                                <div class="mini-dot area-VEyR"></div> VEyR: Valores Esp. y Rel.
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-CyL"></div> CyL: Com. y Lenguaje
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-CS"></div> CS: Ciencias Sociales
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-APyV"></div> APyV: Artes Plásticas
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-EFyD"></div> EFyD: Ed. Física
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-EM"></div> EM: Ed. Musical
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-CN"></div> CN: Ciencias Nat.
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-Mat"></div> Mat: Matemática
+                            </div>
+                            <div class="guia-item">
+                                <div class="mini-dot area-TT"></div> TT: Técnica Tec.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="configuracion-grados" class="mb-8"></div>
+
+                <div class="notificacion-contenidos">
+                    <svg class="w-8 h-8 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Complete los contenidos por área para cada grado seleccionado. Los bloques se organizan por grado
+                    para facilitar el registro en su matriz simultánea.
+                </div>
+
+                <div id="contenedor-semanas-multigrado" class="space-y-10">
+                </div>
+            </div>
+
+            <!-- III. Adaptaciones Curriculares -->
+            <div class="section-card relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-purple-500 to-pink-600"></div>
+                <div class="flex items-center gap-4 mb-8 pl-2">
+                    <div class="bg-purple-100 p-3 rounded-xl shadow-inner">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 uppercase tracking-widest">
+                        III. Adaptaciones Curriculares
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label class="label-style">Tipo de Adaptación (Obligatorio):</label>
+                        <select id="categoriaAdaptacion" class="input-style cursor-pointer">
+                            <option value="curricular">a) Adaptaciones curriculares (Dificultades leves, rezago)
+                            </option>
+                            <option value="significativa">b) Adaptaciones curriculares significativas (Discapacidad,
+                                TDAH, TEA)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="label-style">Condición / Estudiante:</label>
+                        <input type="text" id="tipoAdaptacion" class="input-style"
+                            placeholder="Ej: Estudiante con dislexia o TDAH">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Bar Fixed -->
+            <div class="py-4 space-y-4 relative z-10 w-full mt-4">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <button type="button" onclick="generarPDCWord()"
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl py-4 md:py-5 text-base md:text-lg font-black uppercase tracking-widest flex justify-center items-center gap-3 shadow-[0_10px_25px_-5px_rgba(59,130,246,0.5)] hover:shadow-blue-500/40 hover:-translate-y-1 transition-all border border-blue-400/50 group flex-1"
+                        id="btnGenerar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span>Generar PDC</span>
+                    </button>
+                    <button type="button" onclick="descargarDocumento()"
+                        class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-2xl py-4 md:py-5 text-base md:text-lg font-black uppercase tracking-widest flex justify-center items-center gap-3 shadow-[0_10px_25px_-5px_rgba(16,185,129,0.5)] hover:shadow-emerald-500/40 hover:-translate-y-1 transition-all border border-emerald-400/50 group hidden flex-1"
+                        id="btnDescargar">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        <span>Descargar PDC</span>
+                    </button>
+                </div>
+
+                <div id="progressContainer"
+                    class="hidden mt-6 bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-800 uppercase tracking-widest">Progreso</h3>
+                            <p id="progressText" class="text-xs font-semibold text-slate-500 mt-1">Iniciando...</p>
+                        </div>
+                        <div class="text-right">
+                            <span id="progressPercent"
+                                class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">0%</span>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full bg-slate-100 rounded-full h-3 md:h-4 border border-slate-200/60 overflow-hidden shadow-inner">
+                        <div id="progressBar"
+                            class="bg-gradient-to-r from-blue-500 via-teal-400 to-emerald-400 h-full rounded-full transition-all duration-500 ease-out relative shadow-[0_0_10px_rgba(52,211,153,0.4)]"
+                            style="width: 0%">
+                            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div
+            class="mt-4 p-5 md:p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-[0_15px_30px_-5px_rgba(0,0,0,0.5)] relative z-10 w-full mb-10 overflow-hidden">
+            <div
+                class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[60px] -mr-10 -mt-20 pointer-events-none">
+            </div>
+            <div class="flex items-center gap-2 mb-4 pb-4 border-b border-white/10 relative z-10">
+                <span
+                    class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_12px_rgba(52,211,153,0.8)]"></span>
+                <span class="text-xs md:text-sm text-emerald-400/90 uppercase font-black tracking-[0.2em]">Estado de
+                    generación del PDC</span>
+            </div>
+            <div class="relative z-10 bg-[#020617] rounded-xl p-4 border border-slate-800/80 shadow-inner">
+                <textarea id="promptOutput" rows="4"
+                    class="w-full bg-transparent text-emerald-400/90 font-mono text-[13px] md:text-sm focus:outline-none resize-none custom-scrollbar leading-relaxed"
+                    readonly placeholder="Esperando acción..."></textarea>
+            </div>
+        </div>
+
+        <footer class="mt-16 text-center text-slate-400 text-sm pb-10 font-medium">
+            © 2026 Sistema de Apoyo al Magisterio - Educación Primaria Multigrado.<br>
+            ICG Software Group | Soluciones Tecnológicas de Vanguardia<br>
+            <span class="text-[10px] text-slate-500 mt-2 block uppercase tracking-widest">Desarrollador: Israel Condori
+                Gonzales</span>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
