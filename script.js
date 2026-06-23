@@ -365,7 +365,15 @@ async function generarPDCWord() {
                 throw new Error("Error en Netlify Function (" + response.status + "): " + errData);
             }
         } catch (error) {
-            console.warn(error.message);
+            console.warn("Fallo al contactar Netlify:", error.message);
+
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+
+            if (!isLocal) {
+                // En producción (Netlify), no pedimos la clave del entorno local. Lanzamos error directo.
+                throw new Error("Error del servidor (Netlify): Verifica que las variables de entorno (GEM_1, GEM_2) estén bien configuradas. " + error.message);
+            }
+
             // Fallback para uso local seguro
             let LOCAL_API_KEY = localStorage.getItem('GEMINI_API_KEY');
             if (!LOCAL_API_KEY) {
