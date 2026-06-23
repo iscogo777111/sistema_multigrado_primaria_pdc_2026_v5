@@ -3,3 +3,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+[[edge_functions]]
+  path = "/.netlify/functions/generate-pdc"
+  function = "generate-pdc"

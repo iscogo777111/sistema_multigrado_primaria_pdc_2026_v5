@@ -1,20 +1,22 @@
-exports.handler = async (event, context) => {
-    if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+export default async (request, context) => {
+    if (request.method !== "POST") {
+        return new Response("Method Not Allowed", { status: 405 });
     }
 
     try {
-        const body = JSON.parse(event.body);
+        const body = await request.json();
         const promptText = body.prompt;
 
         if (!promptText) {
-            return { statusCode: 400, body: JSON.stringify({ error: "No prompt provided" }) };
+            return new Response(JSON.stringify({ error: "No prompt provided" }), {
+                status: 400, headers: { "Content-Type": "application/json" }
+            });
         }
 
         const keys = [
-            { name: "GEM_1", key: process.env.GEM_1 },
-            { name: "GEM_2", key: process.env.GEM_2 },
-            { name: "GEM_3", key: process.env.GEM_3 }
+            { name: "GEM_1", key: Deno.env.get("GEM_1") },
+            { name: "GEM_2", key: Deno.env.get("GEM_2") },
+            { name: "GEM_3", key: Deno.env.get("GEM_3") }
         ];
 
         let lastError = null;
@@ -26,6 +28,7 @@ exports.handler = async (event, context) => {
             if (!currentObj.key) continue;
 
             try {
+                // Request against Gemini API
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${currentObj.key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -41,7 +44,7 @@ exports.handler = async (event, context) => {
                 if (!response.ok) {
                     const errText = await response.text();
                     lastError = { status: response.status, details: errText };
-                    console.warn(`[Failover] Failed using ${currentObj.name}: ${response.status}`);
+                    console.warn(`[Failover] Failed using ${currentObj.name}: ${response.status} - ${errText}`);
                     continue; // Intentar con la siguiente
                 }
 
@@ -56,24 +59,24 @@ exports.handler = async (event, context) => {
         }
 
         if (successfulData) {
-            // Adjuntamos qué key se usó exitosamente para que el cliente lo muestre
             successfulData.usedKey = usedKeyName;
-            return {
-                statusCode: 200,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(successfulData)
-            };
+            return new Response(JSON.stringify(successfulData), {
+                status: 200,
+                headers: { "Content-Type": "application/json" }
+            });
         } else {
-            return {
-                statusCode: 503,
-                body: JSON.stringify({ error: "All Gemini API keys failed", lastError })
-            };
+            return new Response(JSON.stringify({ error: "All Gemini API keys failed", lastError }), {
+                status: 503,
+                headers: { "Content-Type": "application/json" }
+            });
         }
     } catch (error) {
         console.error("Function error:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Internal Server Error", details: error.message })
-        };
+        return new Response(JSON.stringify({ error: "Internal Server Error", details: error.message }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" }
+        });
     }
 };
+
+export const config = { path: "/.netlify/functions/generate-pdc" };
